@@ -20,6 +20,15 @@
                                     </a>
                                 </li>
 
+                                      {% if request.user.first_name  %}
+                                                                      <li class="nav-item">
+                                    <a class="nav-link me-2 green-khieer" href="{% url 'logout' %}">
+                                        خروج
+                                    </a>
+                                </li>
+
+                                      {% endif %}
+
 
 
                             </ul>

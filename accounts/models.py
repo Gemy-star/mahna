@@ -57,7 +57,7 @@ class UserManager(BaseUserManager):
         user.is_accountant = False
         user.is_manager = False
         user.is_admin = True
-        user.staff = False
+        user.staff = True
         user.is_resident = False
         user.is_active = True
         user.user_type = 1

@@ -8,6 +8,14 @@
     width: 100%;
     background-color: transparent;
 }
+.bg-mahna {
+background-color: #48A835;
+background-image: linear-gradient(315deg, #48A835 0%, #5DBD7E  74%);
+
+}
+.txt-black {
+    color: #111111;
+}
 :root {
     --bs-blue: #63B3ED;
     --bs-indigo: #596CFF;
