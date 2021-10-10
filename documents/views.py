@@ -5,11 +5,12 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic.edit import CreateView, UpdateView
-
+from django.forms import modelformset_factory
 from mahnaWebsite.views import EmailThread
-from .forms import PrfoesssionForm, ApplicantForm, ProofForm, FloorForm, ConstructionForm
+from .forms import PrfoesssionForm, ApplicantForm, ProofForm, FloorForm, ConstructionForm, LocationForm, ImageForm
 
-from documents.models import ProfessionDocument, Applicant, ProfessionProof, ConstructionLicense, ConstructionFloor
+from documents.models import ProfessionDocument, Applicant, ProfessionProof, ConstructionLicense, ConstructionFloor, \
+    Location, LocationImages
 
 
 class AllProfessionDocuments(View):
@@ -30,6 +31,42 @@ class AllLicenses(View):
         return render(request, 'documents/constructionLicensce/allLicenses.html', context={"data": data})
 
 
+class AllLocations(View):
+    def get(self, request):
+        data = Location.objects.all()
+        return render(request, 'documents/locations/allLocations.html', context={"data": data})
+
+
+class AddLocation(View):
+    ImageFormSet = modelformset_factory(LocationImages,
+                                        form=ImageForm, extra=3)
+    postForm = LocationForm()
+
+    def get(self, request):
+        formset = self.ImageFormSet(queryset=LocationImages.objects.none())
+        return render(request, 'documents/locations/addLocation.html',
+                      context={'postForm': self.postForm, 'formset': formset})
+
+    def post(self, request):
+        postForm = LocationForm(request.POST)
+        formset = self.ImageFormSet(request.POST, request.FILES,
+                                    queryset=LocationImages.objects.none())
+        if postForm.is_valid() and formset.is_valid():
+            post_form = postForm.save(commit=False)
+            post_form.save()
+
+            for form in formset.cleaned_data:
+                if form:
+                    image = form['image']
+                    photo = LocationImages(location=post_form, image=image)
+                    photo.save()
+            messages.success(request,
+                             "لقد تمت العملية بنجاح")
+            return redirect('all-locations')
+        else:
+            print(postForm.errors, formset.errors)
+
+
 class AddLicenses(CreateView):
     model = ConstructionLicense
     form_class = ConstructionForm
@@ -37,6 +74,8 @@ class AddLicenses(CreateView):
 
     def get_success_url(self):
         return reverse('all-licenses')
+
+
 class UpdateLicenses(UpdateView):
     model = ConstructionLicense
     form_class = ConstructionForm
@@ -44,6 +83,8 @@ class UpdateLicenses(UpdateView):
 
     def get_success_url(self):
         return reverse('all-licenses')
+
+
 class AddFloor(CreateView):
     model = ConstructionFloor
     form_class = FloorForm
@@ -51,6 +92,7 @@ class AddFloor(CreateView):
 
     def get_success_url(self):
         return reverse('add-licenses')
+
 
 class AddProof(CreateView):
     model = ProfessionProof

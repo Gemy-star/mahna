@@ -1,0 +1,89 @@
+{% extends 'masterpage.html' %}
+{% load static %}
+{% block title %}لوحة التحكم {% endblock title %}
+
+{% block body %}
+    <section class="min-vh-85 mb-8" style="background-color: #f4f4f4">
+        <div class=" bg-kheer page-header align-items-start min-vh-90 pt-5 pb-11 m-3 border-radius-lg"
+             style="background-image: url('../../../static/images/mahna.png')">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 text-center mx-auto pt-lg-5">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            {% include 'partials/_menu.html' %}
+
+            <div class="row pt-3">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header pb-0">
+                            <h6>صك الملكية</h6>
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-10 ">
+                                    <a href="{% url 'add-location' %}" class="btn btn-sm text-white bg-mahna">
+                                        إضافة موقع
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive">
+
+                                <table class="table align-items-center table-bordered">
+                                    <thead class="bg-mahna" style="height: 2vh;">
+                                    <tr>
+                                        <th class="text-xxs font-weight-bolder text-white">رابط الموقع</th>
+                                        <th class="text-xxs font-weight-bolder text-white">وصف العقار</th>
+                                        <th class="text-xxs text-white font-weight-bolder">حالة المبنى</th>
+                                        <th class="text-xxs font-weight-bolder text-white">مستوى المنطقة</th>
+                                        <th class="text-xxs font-weight-bolder text-white"> تشطيبات</th>
+                                        <th class="text-xxs font-weight-bolder text-white">صور الموقع</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in data %}
+                                        <tr>
+                                            <td>
+                                                    <span class="badge badge-sm bg-maal">
+                                                      <a href="{{ item.url }}">
+                                                          الرابط
+                                                      </a>
+                                                    </span>
+
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 text-xxs txt-black">{{ item.description }}</p>
+
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 text-xxs txt-black">{{ item.get_status_display }}</p>
+
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 text-xxs txt-black">{{ item.get_zone_level_display }}</p>
+
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 text-xxs txt-black">{{ item.get_finishing_display }}</p>
+
+                                            </td>
+                                             <td class="ms-auto text-start">
+                                            <a class="btn btn-link text-dark px-3 mb-0" href=""><i class="fas fa-pencil-alt text-primary me-2" aria-hidden="true"></i>إظهار الصور</a>
+                                        </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock body %}

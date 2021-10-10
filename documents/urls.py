@@ -13,4 +13,7 @@ urlpatterns = [
     path('Licenses/all', views.AllLicenses.as_view(), name='all-licenses'),
     path('Licenses/add', views.AddLicenses.as_view(), name='add-licenses'),
     path('Licenses/update/<int:pk>', views.UpdateLicenses.as_view(), name='update-licenses'),
+    path('location/add/', views.AddLocation.as_view(), name='add-location'),
+    path('locations/all', views.AllLocations.as_view(), name='all-locations'),
+
 ]

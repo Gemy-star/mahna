@@ -4,6 +4,15 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+.table thead tr  {
+    height: 2vh;
+    line-height: 2vh;
+    width: 100%;
+}
+.table tbody td {
+    width: 2rem;
+}
+
 .header {
     width: 100%;
     background-color: transparent;

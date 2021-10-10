@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 
 
 class ProfessionProof(models.Model):
@@ -51,3 +52,40 @@ class Applicant(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Location(models.Model):
+    LOCATION_STATUS = (
+        (1, 'ممتازة'),
+        (2, 'جيده'),
+        (3, 'سيئة')
+    )
+    status = models.SmallIntegerField(null=True, choices=LOCATION_STATUS)
+    url = models.URLField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    ZONE_LEVEL = (
+        (1, 'مرتفع'),
+        (2, 'منخفض'),
+    )
+    zone_level = models.SmallIntegerField(null=True, choices=ZONE_LEVEL)
+    FINISHING = (
+        (1, 'دهانات'),
+        (2, 'هيكل إنشائى'),
+        (3, 'الأرضيات')
+    )
+    finishing = models.SmallIntegerField(null=True, choices=FINISHING)
+
+
+def get_image_filename(instance, filename):
+    title = instance.location.get_status_display()
+    slug = slugify(title)
+    return "location_images/%s-%s" % (slug, filename)
+
+
+class LocationImages(models.Model):
+    location = models.ForeignKey(Location, default=None, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=get_image_filename,
+                              verbose_name='Image')
+
+
+

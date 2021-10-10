@@ -41,7 +41,6 @@ class ConstructionForm(forms.ModelForm):
         }
 
 
-
 class PrfoesssionForm(forms.ModelForm):
     class Meta:
         model = models.ProfessionDocument
@@ -58,6 +57,15 @@ class PrfoesssionForm(forms.ModelForm):
                 attrs={'id': 'palnfield', 'class': 'form-control', 'placeholder': 'رقم المخطط'}),
             'city': forms.TextInput(attrs={'id': 'cityfield', 'class': 'form-control', 'placeholder': 'المدينة'}),
             'proof': forms.CheckboxSelectMultiple(choices=models.ProfessionProof.objects.all())
+        }
+        labels = {
+            'apartmentNumber': 'رقم الشقة',
+            'apartmentArea': 'مساحة الشقة',
+            'district': 'الحي',
+            'plannedNumber': 'رقم المخطط',
+            'areaNumber': 'رقم القطعة',
+            'city': 'المدينة',
+            'proof': 'صك الملكية'
         }
 
 
@@ -79,3 +87,45 @@ class ApplicantForm(forms.ModelForm):
             'recordCivilian': forms.TextInput(
                 attrs={'id': 'recordCivilianfield', 'class': 'form-control', 'placeholder': 'سجل مدنى'}),
         }
+        labels = {
+            'name': 'الأسم',
+            'manager': 'المسئول',
+            'phone': 'الجوال',
+            'fax': 'الفاكس',
+            'address': 'العنوان',
+            'city': 'المدينة',
+            'recordCivilian': 'سجل مدنى'
+        }
+
+
+class LocationForm(forms.ModelForm):
+    class Meta:
+        model = models.Location
+        fields = ['url', 'description', 'status', 'zone_level', 'finishing']
+        widgets = {
+            'url': forms.URLInput(
+                attrs={'id': 'namefield', 'class': 'form-control', 'placeholder': 'رابط الموقع'}),
+            'status': forms.Select(choices=models.Location.LOCATION_STATUS,
+                                   attrs={'id': 'statusfield', 'class': 'form-control'}),
+            'description': forms.TextInput(
+                attrs={'id': 'descriptionfield', 'class': 'form-control', 'placeholder': 'الوصف'}),
+            'zone_level': forms.Select(choices=models.Location.ZONE_LEVEL,
+                                       attrs={'id': 'zonefield', 'class': 'form-control'}),
+            'finishing': forms.Select(choices=models.Location.FINISHING,
+                                      attrs={'id': 'zonefield', 'class': 'form-control'})
+        }
+        labels = {
+            'url': 'رابط الموقع',
+            'status': 'الحالة',
+            'description': 'الوصف',
+            'zone_level': 'مستوى المنطقة',
+            'finishing': 'تشطيبات'
+        }
+
+
+class ImageForm(forms.ModelForm):
+    image = forms.ImageField(label='صور الموقع')
+
+    class Meta:
+        model = models.LocationImages
+        fields = ['image']
