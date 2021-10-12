@@ -34,7 +34,7 @@ class LoginView(View):
                     )
                     messages.success(request, "Welcome, " + user.email + ". You are now logged in.")
 
-                    return redirect('home-page')
+                    return redirect('admin-page')
 
             else:
                 user_n = User.objects.filter(email=email).exists()
@@ -71,7 +71,7 @@ class RegisterManager(View):
                                            address=address, password=password, phone=phone)
         if user is not None:
             login(request, user)
-            return redirect('home-page')
+            return redirect('admin-page')
 
     def get(self, request):
         context = {}
@@ -97,7 +97,7 @@ class RegisterAccountant(View):
                                               address=address, password=password, phone=phone)
         if user is not None:
             login(request, user)
-            return redirect('home-page')
+            return redirect('admin-page')
 
     def get(self, request):
         context = {}
@@ -116,7 +116,7 @@ class RegisterResident(View):
                                             address=address, password=password, phone=phone)
         if user is not None:
             login(request, user)
-            return redirect('home-page')
+            return redirect('admin-page')
 
     def get(self, request):
         context = {}
